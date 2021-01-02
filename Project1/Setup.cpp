@@ -18,6 +18,7 @@
 #include "BMP.h"
 #include "Sphere.h"
 #include "Setup.h"
+#include "glslprogram.h" 
 
 #define PI 3.1415926535
 
@@ -51,6 +52,7 @@ bool Tree1 = false, Tree1M = false, Tree1N = false,
 const float MINSCALE = { 0.05f };
 const GLfloat AXES_WIDTH = { 5. };
 
+bool FragmentShaderOn, VertexShaderOn;
 
 const GLfloat Colors[][3] =
 {
@@ -223,7 +225,7 @@ const GLfloat FOGEND = { 4. };
 //
 // do not call Display( ) from here -- let glutMainLoop( ) do it
 
-#define MS_IN_THE_ANIMATION_CYCLE   2000
+#define MS_IN_THE_ANIMATION_CYCLE   5000
 float Time;
 void
 Animate()
@@ -461,7 +463,6 @@ DoDepthMenu(int id)
 }
 
 
-
 // initialize the glut and OpenGL libraries:
 // also setup display lists and callback functions
 
@@ -542,6 +543,8 @@ InitGraphics()
     fprintf(stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 #endif
 
+    MyInitGraphics();
+
 }
 
 // the keyboard callback:
@@ -570,7 +573,6 @@ Keyboard(unsigned char c, int x, int y)
         break;
 
     case 'f':
-    case 'F':
         Freeze = !Freeze;
         if (Freeze)
             glutIdleFunc(NULL);
@@ -578,59 +580,15 @@ Keyboard(unsigned char c, int x, int y)
             glutIdleFunc(Animate);
         break;
     
-    case 't' :
-        Tree3D = true; Tree1 = false;
-        Tree2 = false; Tree3 = false; Tree4 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1M = false; Tree1N = false;
+    case 'F':
+        FragmentShaderOn = !FragmentShaderOn;
         break;
-
-    case '1':
-        Tree1 = true; Tree3D = false;
-        Tree2 = false; Tree3 = false; Tree4 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1M = false; Tree1N = false;
+    case 'V':
+        VertexShaderOn = !VertexShaderOn;
         break;
-
-    case 'm':
-        Tree1M = true; Tree3D = false;
-        Tree2 = false; Tree3 = false; Tree4 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1 = false; Tree1N = false;
-        break;
-
-    case 'n':
-        Tree1N = true; Tree3D = false;
-        Tree2 = false; Tree3 = false; Tree4 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1 = false; Tree1M = false;
-        break;
-
-    case '2':
-        Tree2 = true; Tree3D = false;
-        Tree1 = false; Tree3 = false; Tree4 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1M = false; Tree1N = false;
-        break;
-    case '3':
-        Tree3 = true; Tree3D = false;
-        Tree1 = false; Tree2 = false; Tree4 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1M = false; Tree1N = false;
-        break;
-    case '4':
-        Tree4 = true; Tree3D = false;
-        Tree1 = false; Tree2 = false; Tree3 = false; Tree5 = false;
-        Tree6 = false; Tree7 = false; Tree1M = false; Tree1N = false;
-        break;
-    case '5':
-        Tree5 = true; Tree3D = false;
-        Tree1 = false; Tree2 = false; Tree3 = false; Tree4 = false;
-        Tree6 = false; Tree7 = false; Tree1M = false; Tree1N = false;
-        break;
-    case '6':
-        Tree6 = true; Tree3D = false;
-        Tree1 = false; Tree2 = false; Tree3 = false; Tree4 = false;
-        Tree5 = false; Tree7 = false; Tree1M = false; Tree1N = false;
-        break;
-    case '7':
-        Tree7 = true; Tree3D = false;
-        Tree1 = false; Tree2 = false; Tree3 = false; Tree4 = false;
-        Tree5 = false; Tree6 = false; Tree1M = false; Tree1N = false;
+    case 'b':
+        FragmentShaderOn = true;
+        VertexShaderOn = true;
         break;
 
 
@@ -768,6 +726,8 @@ Reset()
     WhichProjection = PERSP;
     Freeze = false;
     Xrot = Yrot = 0.;
+    FragmentShaderOn = false;
+    VertexShaderOn = false;
 }
 
 
@@ -1028,61 +988,3 @@ float mycos(float theta)
     }
 }
 
-
-//
-//void turtle2D(string s, float len, float delta)
-//{
-//    float x = 0, y = 0, z = 0, alpha = 90;
-//    float thickness = 3.3;
-//    bool cond1;
-//    State S;
-//    stack<State> St;
-//
-//    for (int i = 0; i < s.length(); i++)
-//    {
-//        char current = s[i];
-//        cond1 = current == 'L' || current == 'R' ||
-//            current == 'l' || current == 'r' || current == 'X';
-//
-//        glLineWidth(thickness);
-//        if (current == 'F')
-//        {
-//            glBegin(GL_LINE_STRIP);
-//
-//            glVertex3f(x, y, z);
-//            x = x + len * mycos(alpha);
-//            y = y + len * mysin(alpha);
-//            z = 0;
-//            glVertex3f(x, y, z);
-//            glEnd();
-//        }
-//        else if (cond1)
-//        {
-//
-//        }
-//        else if (current == 'f') {
-//            x = x + len * mycos(alpha);
-//            y = y + len * mysin(alpha);
-//            z = 0;
-//        }
-//        else if (current == '+') {
-//            alpha = alpha + delta;
-//        }
-//        else if (current == '-') {
-//            alpha = alpha - delta;
-//        }
-//        else if (current == '[') {
-//            glColor3f(0.1, 0.85, 0.5);
-//            St.push({ x,y,z,alpha });
-//            thickness = thickness - 0.5;
-//        }
-//        else if (current == ']') {
-//            S = St.top();
-//            St.pop();
-//            x = S.x; y = S.y; z = S.z; alpha = S.angle;
-//            thickness += 0.5;
-//            glColor3f(0, 1, 0);
-//        }
-//    }
-//
-//}

@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Project3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BMP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -30,16 +27,7 @@
     <ClCompile Include="Project5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Project6.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CatmullRom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Setup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FinalProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

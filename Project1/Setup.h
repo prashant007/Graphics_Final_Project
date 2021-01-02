@@ -1,6 +1,5 @@
 #pragma once
 
-
 extern int      ActiveButton;        // current button that is down
 extern GLuint   AxesList;            // list to hold the axes
 extern int      AxesOn;              // != 0 means to draw the axes
@@ -25,6 +24,7 @@ extern const float MINSCALE;
 extern const float AXES_WIDTH;
 extern const GLfloat Colors[8][3];
 
+extern bool  VertexShaderOn, FragmentShaderOn;
 
 extern const GLfloat FOGCOLOR[4];
 extern const GLenum  FOGMODE;
@@ -32,9 +32,9 @@ extern const GLfloat FOGDENSITY;
 extern const GLfloat FOGSTART;
 extern const GLfloat FOGEND ;
 
-
 // function prototypes:
 void  Animate();
+void MyInitGraphics();
 void  MyDisplay();
 void  Display();
 void  DoAxesMenu(int);

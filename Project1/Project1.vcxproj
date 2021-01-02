@@ -142,13 +142,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CatmullRom.cpp" />
-    <ClCompile Include="FinalProject.cpp" />
-    <ClCompile Include="Project3.cpp" />
     <ClCompile Include="BMP.cpp" />
     <ClCompile Include="glslprogram.cpp" />
     <ClCompile Include="Project5.cpp" />
-    <ClCompile Include="Project6.cpp" />
     <ClCompile Include="Setup.cpp" />
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
